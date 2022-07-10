@@ -1,0 +1,58 @@
+- title: General Information
+  type: map
+  contents:
+    - name: Full Name
+      value: Philip Zhengyuan Wang
+    - name: Email
+      value: philip2000@outlook.com
+    - name: Languages
+      value: English, Chinese (Mandarin)
+
+- title: Education
+  type: time_table
+  contents:
+    - title: B.S. in Computer Science and Mathematics
+      institution: University of Maryland, College Park
+      year: 2018-2022
+      description:
+        - Gemstone Honors College
+
+- title: Experience
+  type: time_table
+  contents:
+    - title: Software Engineer
+      institution: Amazon Web Services
+      year: 2022 - 
+      
+    - title: Vulnerability Research Intern
+      institution: Raytheon CODEX
+      year: 2021
+      description:
+        - Embedded systems vulnerability research
+
+    - title: Security Engineer Intern
+      institution: Trail of Bits
+      year: 2020-2021
+      description:
+        - PrivacyRaven
+        - Manticore Provisioner
+        
+
+
+- title: Open Source Projects
+  type: time_table
+  contents:
+    - title: <a href="https://github.com/pwang00">Personal GitHub</a>
+      year: 2015-now
+      description: Collection of all of my personal open source projects and ones that I have contributed to 
+
+- title: Honors and Awards
+  type: time_table
+  contents:
+    - year: 2017
+      items: 
+        - Placed 7th out of 8000 teams in PicoCTF
+    - year: 2019
+      items: 
+        - Placed 8th out of 1301 teams in CSAW CTF 
+
