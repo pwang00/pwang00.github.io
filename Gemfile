@@ -15,7 +15,7 @@ group :jekyll_plugins do
     gem 'jemoji'
     gem 'unicode_utils'
     gem 'webrick'
-    gem "github-pages", "~> GITHUB-PAGES-VERSION", group: :jekyll_plugins
+    gem "github-pages", "~> 226", group: :jekyll_plugins
 end
 group :other_plugins do
     gem 'httparty'
