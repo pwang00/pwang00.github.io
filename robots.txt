@@ -1,4 +1,7 @@
+---
+permalink: /robots.txt
+---
 User-agent: *
 Disallow:
 
-Sitemap: http://localhost:4000/about/sitemap.xml
+Sitemap: {{ site.baseurl | prepend: site.url }}/sitemap.xml
