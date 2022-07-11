@@ -4,7 +4,7 @@ title: ECC 2 (200) - PicoCTF 2017
 date: 2017-04-17 11:12:00-0400
 description: Pohlig-Hellman
 tags: cryptography math
-categories: sample-posts
+categories: CTFs
 ---
 ECC 2 was a 200 point challenge on PicoCTF 2017.
 
