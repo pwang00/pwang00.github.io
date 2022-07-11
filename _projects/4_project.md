@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Hiet
-description: A Haskell interpreter (and hopefully compiler, eventually) for the Piet esoteric language using the StateT monad transformer and optparse-applicative.
+description: A Haskell interpreter (and hopefully compiler, eventually) for the Piet esoteric language using the StateT monad transformer and optparse-applicative
 img: assets/img/piet_pi.webp
 redirect: https://www.github.com/pwang00/Hiet
 importance: 3
