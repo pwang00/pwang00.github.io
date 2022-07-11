@@ -1,0 +1,28 @@
+I"�<p>Hey everyone, I’m Philip.  I recently graduated from the University of Maryland, College Park with a double degree in mathematics and computer science, and I will be working as a software engineer at Amazon Web Services in Crystal City, VA.</p>
+
+<p>Previously, I interned at <a href="https://www.trailofbits.com">Trail of Bits</a>, where I developed an Ansible <a href="https://github.com/trailofbits/mc-ansible">wrapper</a> around the <a href="https://github.com/trailofbits/manticore">Manticore</a> symbolic executor and implemented an adversarial model inversion attack proof of concept for the <a href="https://github.com/trailofbits/PrivacyRaven">PrivacyRaven</a> deep learning testing library.  I also interned at Raytheon CODEX, where I conducted vulnerability research against embedded systems.</p>
+
+<p>I sometimes play capture the flags (CTFs) with <a href="https://ctftime.org/team/109452/">DiceGang</a>, though I’ve been kind of inactive lately.  I mostly focus on solving cryptography challenges, though I occasionally branch out into other categories.</p>
+
+<p>Broadly speaking, I am interested in offensive cybersecurity and writing robust software.  Below is a non-exhaustive list of my current interests or fields I’d otherwise want to explore:</p>
+
+<ul>
+  <li>Cryptography and cryptanalysis</li>
+  <li>Software exploitation and reverse engineering</li>
+  <li>Automated program analysis and formal verification (via tools like SMT solvers)</li>
+  <li>Mathematics, particularly in algebra (elliptic curves are cool)</li>
+  <li>Consensus algorithms and scalable blockchains</li>
+  <li>Cybersecurity-adjacent machine learning</li>
+  <li>Cybersecurity-adjacent software engineering</li>
+  <li>Compilers (optimizations, infrastructure)</li>
+</ul>
+
+<p>I am a strong believer in open-sourcing my work, and I hope that every software engineer do the same.</p>
+
+<p>Besides doing security-related stuff, I have a few hobbies:</p>
+
+<ul>
+  <li>Playing piano and listening to classical music: Chopin is probably my favorite composer, and his <a href="https://www.youtube.com/watch?v=nW5po_Z7YEs">Ballade No. 1 in G Minor</a> is probably my favorite composition.</li>
+  <li>Going out for jogs on a sunny day</li>
+</ul>
+:ET

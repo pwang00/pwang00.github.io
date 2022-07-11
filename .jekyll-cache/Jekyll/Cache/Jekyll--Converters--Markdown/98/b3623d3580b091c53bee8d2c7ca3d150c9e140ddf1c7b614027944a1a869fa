@@ -1,0 +1,79 @@
+I",<p>Happy was a 242 point crypto challenge on the 2019 Tokyo Westerns Qualifiers</p>
+<h2 id="solution">Solution</h2>
+
+<p>The problem description makes it pretty clear that this challenge is RSA.  Indeed, we are given 3 files of importance: happy (.rb), pub.key, and flag.enc.  We open happy.rb and find the definition of a custom defined Key class, which we figure out to be an implementation of multi-prime RSA (N = pq^k) (as shown below):</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="no">Key</span><span class="p">.</span><span class="nf">new</span><span class="p">({</span>
+    <span class="ss">n: </span><span class="nb">p</span> <span class="o">*</span> <span class="n">q</span> <span class="o">**</span> <span class="n">k</span><span class="p">,</span>
+    <span class="ss">e: </span><span class="n">e</span><span class="p">,</span>
+    <span class="ss">p: </span><span class="nb">p</span><span class="p">,</span>
+    <span class="ss">q: </span><span class="n">q</span> <span class="o">**</span> <span class="n">k</span><span class="p">,</span>
+    <span class="ss">d1: </span><span class="n">d1</span><span class="p">,</span>
+    <span class="ss">d2: </span><span class="n">d2</span><span class="p">,</span>
+    <span class="ss">cf: </span><span class="n">cf</span><span class="p">,</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<p>Additionally, we note that the following lines are important:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def self.import(str)
+    Key.new(Marshal.load(str))
+</code></pre></div></div>
+
+<p>So we can safely deduce here that the pub.key file is a serialized public key that is deserialized and parsed by the key class.  Deserializing the pub.key file yields the following parameters:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>irb(main):001:0&gt; Marshal.load(File.binread("pub.key"))                                                  
+=&gt; {:n=&gt;5452318773620154613572502669913080727339917760196646730652258556145398937256752632887555812737783373177353194432136071770417979324393263857781686277601413222025718171529583036919918011865659343346014570936822522629937049429335236497295742667600448744568785484756006127827416640477334307947919462834229613581880109765730148235236895292544500644206990455843770003104212381715712438639535055758354549980537386992998458659247267900481624843632733660905364361623292713318244751154245275273626636275353542053068704371642619745495065026372136566314951936609049754720223393857083115230045986813313700617859091898623345607326632849260775745046701800076472162843326078037832455202509171395600120638911, :e=&gt;65537, :cf=&gt;25895436290109491245101531425889639027975222438101136560069483392652360882638128551753089068088836092997653443539010850513513345731351755050869585867372758989503310550889044437562615852831901962404615732967948739458458871809980240507942550191679140865230350818204637158480970417486015745968144497190368319745738055768539323638032585508830680271618024843807412695197298088154193030964621282487334463994562290990124211491040392961841681386221639304429670174693151}
+</code></pre></div></div>
+
+<p>Interesting–normally, an RSA public key would contain only (N, e).  The <code class="language-plaintext highlighter-rouge">cf</code> parameter certainly doesn’t seem to match any known implementation of RSA, so we assume for now that it’s an arbitrary parameter.</p>
+
+<p>Going back to the code, we find that <code class="language-plaintext highlighter-rouge">cf = p.pow(q ** (k - 1) * (q - 1) - 1, q ** k)</code>.  Simplifying yields <code class="language-plaintext highlighter-rouge">cf = p^(φ(q^2) - 1) mod q^2</code>, and through Euler’s theorem, <code class="language-plaintext highlighter-rouge">cf = p^-1 mod q^2</code>.  In its current form, <code class="language-plaintext highlighter-rouge">cf</code> isn’t super useful since we only have information of <code class="language-plaintext highlighter-rouge">p^-1 mod q^2</code>, but we can use this to our advantage by multiplying both sides of the equation to arrive at <code class="language-plaintext highlighter-rouge">cf * p = 1 mod q^2</code>, which translates to <code class="language-plaintext highlighter-rouge">cf * p - 1 = kq^2</code>, and multiply this again by <code class="language-plaintext highlighter-rouge">p</code> to arrive at an <code class="language-plaintext highlighter-rouge">(cf * p - 1) * p = kN</code> (i.e. 0 mod N).  Luckily, we can use a Lattice Basis Reduction technique developed by Don Coppersmith in his paper “Finding Small Solutions to Small Degree Polynomials” to solve for <code class="language-plaintext highlighter-rouge">p</code>.</p>
+
+<p>The code to do this is as follows:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">n</span> <span class="o">=</span> <span class="mi">5452318773620154613572502669913080727339917760196646730652258556145398937256752632887555812737783373177353194432136071770417979324393263857781686277601413222025718171529583036919918011865659343346014570936822522629937049429335236497295742667600448744568785484756006127827416640477334307947919462834229613581880109765730148235236895292544500644206990455843770003104212381715712438639535055758354549980537386992998458659247267900481624843632733660905364361623292713318244751154245275273626636275353542053068704371642619745495065026372136566314951936609049754720223393857083115230045986813313700617859091898623345607326632849260775745046701800076472162843326078037832455202509171395600120638911</span>
+<span class="n">cf</span> <span class="o">=</span> <span class="mi">25895436290109491245101531425889639027975222438101136560069483392652360882638128551753089068088836092997653443539010850513513345731351755050869585867372758989503310550889044437562615852831901962404615732967948739458458871809980240507942550191679140865230350818204637158480970417486015745968144497190368319745738055768539323638032585508830680271618024843807412695197298088154193030964621282487334463994562290990124211491040392961841681386221639304429670174693151</span>
+
+<span class="n">P</span><span class="p">.</span><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">Zmod</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">cf</span> <span class="o">*</span> <span class="n">p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">p</span>
+
+<span class="n">roots</span> <span class="o">=</span> <span class="n">f</span><span class="p">.</span><span class="n">monic</span><span class="p">().</span><span class="n">small_roots</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">roots</span><span class="p">)</span>
+
+<span class="c1"># [0, 166878663790065040663149504970052368124427462024107500159158464138407657299730521908976684364578086644682045134207945137293534705688910696520830729908263578233018529387676221035298300775812585471932551347478303730822844748034186479]
+</span></code></pre></div></div>
+
+<p>We see 2 results: 0 is a trivial root, so we can discard it, but we find out that the second value <code class="language-plaintext highlighter-rouge">166878663790065040663149504970052368124427462024107500159158464138407657299730521908976684364578086644682045134207945137293534705688910696520830729908263578233018529387676221035298300775812585471932551347478303730822844748034186479</code> divides N!</p>
+
+<p>Thus, we have found <code class="language-plaintext highlighter-rouge">p</code>, and finding <code class="language-plaintext highlighter-rouge">q</code> is simply a matter of taking the square root of N / p.  We then proceed to calculate <code class="language-plaintext highlighter-rouge">phi = (p - 1) * q * (q - 1)</code> and  <code class="language-plaintext highlighter-rouge">d = e^-1 mod phi</code>.  However, the flag is padded with PKCS1<em>OAEP, so we have to PKCS1_OAEP unpad it to recover the original plaintext.  We ran into incorrect decryption errors when trying to use pycrypto’s PKCS1_OAEP, and since we were sure all our recovered parameters were correct, we switched to the _cryptography</em> module for the last part of the challenge.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">key</span> <span class="o">=</span> <span class="n">RSA</span><span class="p">.</span><span class="n">construct</span><span class="p">((</span><span class="nb">long</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="nb">long</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="nb">long</span><span class="p">(</span><span class="n">d</span><span class="p">)))</span>
+
+<span class="n">final_key</span> <span class="o">=</span> <span class="n">load_pem_private_key</span><span class="p">(</span>
+		<span class="n">key</span><span class="p">.</span><span class="n">exportKey</span><span class="p">(),</span>
+		<span class="n">password</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
+		<span class="n">backend</span><span class="o">=</span><span class="n">default_backend</span><span class="p">()</span>
+		<span class="p">)</span>
+
+<span class="n">flag</span> <span class="o">=</span> <span class="n">final_key</span><span class="p">.</span><span class="n">decrypt</span><span class="p">(</span>
+		<span class="n">c</span><span class="p">,</span>
+		<span class="n">padding</span><span class="p">.</span><span class="n">OAEP</span><span class="p">(</span>
+			<span class="n">mgf</span><span class="o">=</span><span class="n">padding</span><span class="p">.</span><span class="n">MGF1</span><span class="p">(</span><span class="n">algorithm</span><span class="o">=</span><span class="n">hashes</span><span class="p">.</span><span class="n">SHA1</span><span class="p">()),</span>
+			<span class="n">algorithm</span><span class="o">=</span><span class="n">hashes</span><span class="p">.</span><span class="n">SHA1</span><span class="p">(),</span>
+			<span class="n">label</span><span class="o">=</span><span class="bp">None</span>
+			<span class="p">)</span>
+		<span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Running this produces the flag <code class="language-plaintext highlighter-rouge">TWCTF{I_m_not_sad__I_m_happy_always}</code>.</p>
+
+<p>The full code from start to finish can be found in solution.sage (install required libraries through <code class="language-plaintext highlighter-rouge">sage -pip install cryptography pycrypto</code> beforehand).</p>
+
+<h2 id="flag">Flag</h2>
+
+<p>TWCTF{I_m_not_sad__I_m_happy_always}</p>
+
+:ET
