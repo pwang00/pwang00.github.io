@@ -1,7 +1,7 @@
 ---
 layout: page
 title: LibIOP
-description: Refactored testing and instrumentation code for zk-SNARKs; looking at (and failing to solve) issue regarding speedup using Lagrange polynomials instead of field element powers
+description: Refactored testing and instrumentation code for zk-SNARKs; looking at (and failing to solve) issue regarding verifier speedup using Lagrange polynomials instead of field element powers
 img: /assets/img/libiop.png
 redirect: https://github.com/scipr-lab/libiop
 importance: 4
