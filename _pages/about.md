@@ -32,7 +32,7 @@ Broadly speaking, I am interested in offensive cybersecurity and writing robust 
 * Cybersecurity-adjacent software engineering 
 * Compilers (optimizations, infrastructure) 
 
-I am a strong believer in open-sourcing my work, and I hope that every software engineer do the same.
+I am a strong believer in open-sourcing my work, and I hope that every software engineer strives to do the same.
 
 Besides doing security-related stuff, I have a few hobbies, some newer than others:
 
