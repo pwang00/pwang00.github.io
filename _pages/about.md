@@ -37,7 +37,7 @@ I am a strong believer in open-sourcing my work, and I hope that every software 
 Besides doing security-related stuff, I have a few hobbies, some newer than others:
 
 * Playing piano and listening to classical music: Chopin is probably my favorite composer, and his [Ballade No. 1 in G Minor](https://www.youtube.com/watch?v=nW5po_Z7YEs) is my favorite composition
-* Watching movies and TV series: my current favorite films are [The Shawshank Redemption](https://www.imdb.com/title/tt0111161/), [Oblivion](https://www.imdb.com/title/tt1483013/), and [Contratiempo](https://www.imdb.com/title/tt4857264/), and my favorite TV series is [Dark](https://www.imdb.com/title/tt5753856/)
+* Watching movies and TV series: my current favorite films are [The Shawshank Redemption](https://www.imdb.com/title/tt0111161/), [Oblivion](https://www.imdb.com/title/tt1483013/), [Arrival](https://www.imdb.com/title/tt2543164/), and [Contratiempo](https://www.imdb.com/title/tt4857264/), and my favorite TV series is [Dark](https://www.imdb.com/title/tt5753856/)
 * Going out for jogs on cool days
 * Flying drones and getting nice aerial shots
 * Visiting new places and getting to know people
