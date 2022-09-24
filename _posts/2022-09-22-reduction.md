@@ -37,14 +37,14 @@ Eve can solve for $$r_b \pmod{q}$$ by computing $$D_1 D_2^{-1} \pmod{q} = (r_a r
 $$\begin{equation*}
   \left\{
     \begin{aligned}
-      & D_1 \equiv r_a r_s \pmod{p}\\
-      & D_2 \equiv r_a r_b r_s \pmod{p} \\
-      & D_3 \equiv r_b r_s \pmod{p}\\
+      & D_4 \equiv r_a r_s \pmod{p}\\
+      & D_5 \equiv r_a r_b r_s \pmod{p} \\
+      & D_6 \equiv r_b r_s \pmod{p}\\
     \end{aligned}
   \right.
 \end{equation*}$$
 
-and computes $$D_1 D_2^{-1} \pmod{p}$$. Eve can then simplify this system to obtain
+and computes $$D_4 D_5^{-1} \pmod{p}$$. Eve can then simplify this system to obtain
 
 $$\begin{equation*}
   \left\{
