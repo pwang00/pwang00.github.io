@@ -1,7 +1,7 @@
 ---
 layout: post
 title: A neat trick to recover elements in rings with zero divisors
-date: 2019-09-06 11:12:00-0400
+date: 2022-09-24 11:12:00-0400
 description: Number Theory
 tags: cryptography math
 categories: CTFs
@@ -22,7 +22,7 @@ However, all is not lost for Eve.  Recall that $$P_1$$ can be each expressed as 
 
 Eve now has the following system:
 
-$$\[\begin{equation*}
+$$\begin{equation*}
   \left\{
     \begin{aligned}
       & D_1 \equiv r_a r_s \pmod{q}\\
@@ -44,7 +44,7 @@ $$\begin{equation*}
   \right.
 \end{equation*}$$
 
-and computes $$D_1 D_2^{-1} \pmod{q}$$.  Eve can then simplify this system to obtain
+and computes $$D_1 D_2^{-1} \pmod{p}$$.  Eve can then simplify this system to obtain
 
 $$\begin{equation*}
   \left\{
