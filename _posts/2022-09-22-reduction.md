@@ -1,7 +1,7 @@
 ---
 layout: post
 title: A neat trick to recover elements in rings with zero divisors
-date: 2022-09-23 11:12:00-0400
+date: 2022-09-21 11:12:00-0400
 description: Number Theory
 tags: cryptography math
 categories: CTFs
