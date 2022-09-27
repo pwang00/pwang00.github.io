@@ -55,9 +55,11 @@ $$\begin{equation*}
   \right.
 \end{equation*}$$
 
-She then applies the Chinese remainder theorem to obtain $$r_b \pmod{n}$$.  From here, Eve can then trivially recover $$s$$ by performing $$ r_b^{-1}P_3$$.  
+She then applies the Chinese remainder theorem to obtain $$r_b \pmod{n}$$.  From here, Eve can trivially recover $$s$$ by performing $$ r_b^{-1}P_3$$.  
 
-The below script demonstrates Eve's attack in action:
+There is actually an even quicker approach that Eve can take to recover $$s$$: realize that for $$n = pq$$, $$p(a \pmod{q}) = pa \pmod{n}$$.  This is easy to see by definition of $$ b \equiv (a \pmod{q})$$, which means $$b = kq + a$$.  Therefore $$pb = k(pq) + pa$$, and the result follows.  In this case, Eve knows that $$P_3$$ contains a factor of $$p$$, so she can actually perform $$P_3 (r_b^{-1} \pmod{q}) \pmod{n}$$ to obtain $$s$$.
+
+The below script demonstrates both of Eve's approaches in action:
 
 ```python
 import random
@@ -90,6 +92,9 @@ D_1 = int(P_1 / p)
 D_2 = int(P_2 / p)
 D_3 = int(P_3 / p)
 
+
+## Approach 1: Chinese Remainder Theorem
+
 # Compute r_b modulo p and q
 rb_mod_p = (D_2 * inverse_mod(D_1, p)) % p
 rb_mod_q = (D_2 * inverse_mod(D_1, q)) % q
@@ -100,6 +105,10 @@ rb_mod_n = crt([rb_mod_p, rb_mod_q], [p, q])
 # Compute the secret via r_b^-1 * P_3, which yields s = p * r_s
 v = (inverse_mod(rb_mod_n, n) * P_3) % n
 
-assert(v == s)
+## Approach 2: multiply rb_mod_q by P_2, take modulo n
+
+v_2 = (P_3 * inverse_mod(rb_mod_q, q) % n)
+
+assert(v == v_2 == s)
 ```
 
