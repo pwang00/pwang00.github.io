@@ -57,7 +57,7 @@ $$\begin{equation*}
 
 She then applies the Chinese remainder theorem to obtain $$r_b \pmod{n}$$.  From here, Eve can trivially recover $$s$$ by performing $$ r_b^{-1}P_3$$.  
 
-There is actually an even quicker approach that Eve can take to recover $$s$$: realize that for $$n = pq$$, $$p(a \pmod{q}) = pa \pmod{n}$$.  This is easy to see by definition of $$ b \equiv (a \pmod{q})$$, which means $$b = kq + a$$.  Therefore $$pb = k(pq) + pa$$, and the result follows.  In this case, Eve knows that $$P_3$$ contains a factor of $$p$$, so she can actually perform $$P_3 (r_b^{-1} \pmod{q}) \pmod{n}$$ to obtain $$s$$.
+There is actually an even quicker approach that Eve can take to recover $$s$$: realize that for $$n = pq$$, $$p(a \pmod{q}) = pa \pmod{n}$$.  This is easy to see by definition of $$ b \equiv a \pmod{q}$$, which means $$b = kq + a$$.  Therefore $$pb = k(pq) + pa$$, and the result follows.  In this case, Eve knows that $$P_3$$ contains a factor of $$p$$, so she can actually perform $$P_3 (r_b^{-1} \pmod{q}) \pmod{n}$$ to obtain $$s$$.
 
 The below script demonstrates both of Eve's approaches in action:
 
