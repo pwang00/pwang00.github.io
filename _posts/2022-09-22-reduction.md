@@ -105,7 +105,7 @@ rb_mod_n = crt([rb_mod_p, rb_mod_q], [p, q])
 # Compute the secret via r_b^-1 * P_3, which yields s = p * r_s
 v = (inverse_mod(rb_mod_n, n) * P_3) % n
 
-## Approach 2: multiply rb_mod_q by P_2, take modulo n
+## Approach 2: multiply rb_mod_q by P_3, take modulo n
 
 v_2 = (P_3 * inverse_mod(rb_mod_q, q) % n)
 
