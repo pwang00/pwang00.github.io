@@ -15,7 +15,7 @@ selected_papers: false # includes a list of papers marked as "selected={true}"
 social: true  # includes social icons at the bottom of the page
 ---
 
-Hey everyone, I'm Philip.  I recently graduated from the University of Maryland, College Park with a double degree in mathematics and computer science, and I will be working as a software engineer at Amazon Web Services in Crystal City, VA.  
+Hey everyone, I'm Philip.  I recently graduated from the University of Maryland, College Park with a double degree in mathematics and computer science, and I am currently working as a software engineer at Amazon Web Services in Crystal City, VA.  
 
 Previously, I interned at [Trail of Bits](https://www.trailofbits.com), where I developed an Ansible [wrapper](https://github.com/trailofbits/mc-ansible) around the [Manticore](https://github.com/trailofbits/manticore) symbolic executor and implemented an adversarial model inversion attack proof of concept for the [PrivacyRaven](https://github.com/trailofbits/PrivacyRaven) deep learning testing library.  I also interned at Raytheon CODEX, where I conducted vulnerability research against embedded systems.
 
