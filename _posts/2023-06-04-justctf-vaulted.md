@@ -94,13 +94,13 @@ def enroll(self, data):
     return f"Success. There are {len(self.pubkeys)} enrolled"
 ```
 
-`enroll` and `get_flag`'s authorization check are respectively adding and checking a coincurve `PublicKey` object.  coincurve is actually a wrapper around libsecp256k1, which supports three distinct byte representations for the same public key. 
+`enroll` and `get_flag`'s authorization check are respectively adding and checking coincurve `PublicKey` objects.  coincurve is actually a wrapper around libsecp256k1, which supports three distinct byte representations for the same public key.
 
 * Compressed: `0x02 || PubKey.X` or `0x03 || PubKey.X`
 * Uncompressed: `0x04 || PubKey.X || PubKey.Y`
 * Hybrid: `0x06 || PubKey.X || PubKey.Y` or `0x07 || PubKey.X || PubKey.Y`
 
-Where the || above denotes concatenation.
+Where the `||` above denotes concatenation.
 
 Note that in the authorization check, `self.pubkeys` is a list, and using the `in` operator requires that `__eq__` is implemented for the operand. To check for equality of two `PublicKey` objects, coincurve compares their uncompressed byte representations:
 
