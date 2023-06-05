@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Cosmos SDK
-description: Looking into an issue with Ethereum ecrecover byte inconsistency between GETH And MetaMask 
+description: Fixed an EIP-191 signature verification related issue in Cosmos
 img: /assets/img/cosmos.jpeg
 redirect: https://github.com/cosmos/cosmos-sdk
 importance: 4

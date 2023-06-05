@@ -1,9 +1,9 @@
 ---
 layout: page
-title: PietCC
-description: A Rust interpreter and compiler for the Piet esoteric language using LLVM as a backend, with full support for program codel-size inference, white block elimination, warning about nontermination for certain classes of programs, and emitting optimized IR through running LLVM optimization passes.
-img: assets/img/piet_pi.webp
-redirect: https://github.com/pwang00/pietcc
+title: Rust Ray Tracer
+description: Implemented a parallelized ray tracer in Rust following "Ray Tracing In One Weekend".
+img: assets/img/traced.png
+redirect: https://github.com/pwang00/rust-ray-tracer/
 importance: 3
 category: personal
 ---
