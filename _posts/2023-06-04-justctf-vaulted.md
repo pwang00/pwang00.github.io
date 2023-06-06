@@ -126,7 +126,7 @@ def format(self, compressed: bool = True) -> bytes:
     return bytes(ffi.buffer(serialized, length))
 ```
 
-Indeed, a `PublicKey` object initialized on an equivalent compressed, uncompressed, and hybrid public key will all be equal to one another.
+Indeed, `PublicKey` objects initialized on equivalent compressed, uncompressed, and hybrid public keys will all be equal.
 
 Thus, we can bypass the deduplication check by generating a public / private keypair, signing `'get_flag'` with the private key, and specifying the compressed, uncompressed, and hybrid representations of our public key along with the signature when calling `get_flag`.  This can be done as follows:
 
