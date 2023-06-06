@@ -246,7 +246,7 @@ if ((uVar4 != 0x2b) || (iVar7 = bcmp(__s1,__s2,0xac), iVar7 != 0)) goto LAB_0001
 
 corresponds to 
 
-```c
+```nasm
 00016268 2b 00 5a e3     cmp        r10,#0x2b
 0001626c 20 00 00 1a     bne        LAB_000162f4
 00016270 09 00 a0 e1     cpy        r0,r9
@@ -261,7 +261,7 @@ so `uVar4` is stored in `r10`, `__s1` is stored in `r9`, and `__s2` is stored in
 
 We can then run the binary via qemu-arm and gdbserver, set relevant breakpoints, and examine the contents of these registers:
 
-```sh
+```nasm
 $ qemu-arm -g 1234 rustberry.exe 
 Give me the flag? 
 jctf{n0_vM_just_plain_0ld_ru5tb3rry_ch4ll}
