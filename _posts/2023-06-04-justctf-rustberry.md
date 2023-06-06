@@ -56,14 +56,7 @@ void rustberry::main(char *param_1)
 
 Examining it, a few things stand out:
 
-* There seems to be three variables of type `Vec<u8>`: 
-    * `__s1`
-    * `__s2`
-    * `__puVar2`
-
-* There's a variable `uVar4` that seems to be storing the length of the user input
-
-* `__s2` is likely a `Vec<u8>` that's storing some kind of key:
+`__s2` is likely a `Vec<u8>` that's storing some kind of key:
 
 ```c
 __s2 = (undefined4 *)std::alloc::__default_lib_allocator::__rust_alloc(0xac,4);
@@ -117,7 +110,7 @@ __s2[2] = 0x13;
 __dest = (byte *)std::alloc::__default_lib_allocator::__rust_alloc(0x41,1);
 ```
 
-* `__dest` is likely some `Vec<u8>` that's storing the upper and lowercase alphabet and some special characters:
+`__dest` is likely some `Vec<u8>` that's storing the upper and lowercase alphabet and some special characters:
 
 ```c
 __dest = (byte *)std::alloc::__default_lib_allocator::__rust_alloc(0x41,1);
@@ -130,7 +123,7 @@ memcpy(__dest,
         ,0x41);
 ```
 
-* `puVar2` is likely the String corresponding to our user input.  Furthermore, there's a main loop that's computing `uVar6 = puVar2[i]`, checking if `puVar2[i] in dest[1]`, and copying `dest.index_of(puVar2[i])` into `__s1[i]`:
+`puVar2` is likely the String corresponding to our user input.  Furthermore, there's a main loop that's computing `uVar6 = puVar2[i]`, checking if `puVar2[i] in dest[1]`, and copying `dest.index_of(puVar2[i])` into `__s1[i]`:
 
 ```c
     do {
@@ -160,7 +153,7 @@ LAB_0001624c:
     } while (uVar4 != uVar9);
 ```
 
-* There's a comparison that checks if the input is 42 bytes long, and that the `__s1` and `__s2` are bytewise identical for the first 172 characters.  If the check succeeds, then the program will output "You've entered correctly", and otherwise it will output "You've entered incorrectly".
+There's a comparison that compares `uVar4` to 0x2b = 42, suggesting that `uVar4` is the length of the input.  Furthermore, the comparison checks that the `__s1` and `__s2` are bytewise identical for the first 0xac = 172 characters.  If the check succeeds, then the program will output "You've entered correctly", and otherwise it will output "You've entered incorrectly".
 
 ```c
 if ((uVar4 != 0x2b) || (iVar7 = bcmp(__s1,__s2,0xac), iVar7 != 0)) goto LAB_000162f4;
@@ -253,7 +246,7 @@ if ((uVar4 != 0x2b) || (iVar7 = bcmp(__s1,__s2,0xac), iVar7 != 0)) goto LAB_0001
 
 corresponds to 
 
-```
+```c
 00016268 2b 00 5a e3     cmp        r10,#0x2b
 0001626c 20 00 00 1a     bne        LAB_000162f4
 00016270 09 00 a0 e1     cpy        r0,r9
@@ -268,7 +261,7 @@ so `uVar4` is stored in `r10`, `__s1` is stored in `r9`, and `__s2` is stored in
 
 We can then run the binary via qemu-arm and gdbserver, set relevant breakpoints, and examine the contents of these registers:
 
-```
+```sh
 $ qemu-arm -g 1234 rustberry.exe 
 Give me the flag? 
 jctf{n0_vM_just_plain_0ld_ru5tb3rry_ch4ll}
