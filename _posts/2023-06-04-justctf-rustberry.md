@@ -209,7 +209,7 @@ You've entered correctly
 
 ### Some additional notes 
 
-We made some assumptions about the purpose of some variables since decompiled code isn't always sensible.  For example, it's not 100% clear that `uVar4` is the length of the input and `puVar2` is the input string.
+We made some assumptions about the purpose of some variables since decompiled code isn't always sensible.  For example, it's not 100% clear by looking at the excerpt below that `uVar4` is the length of the input and `puVar2` is the input string.
 
 ```c
 local_38 = 1;
