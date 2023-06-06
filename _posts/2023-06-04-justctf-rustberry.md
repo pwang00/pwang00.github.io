@@ -28,7 +28,7 @@ $ file rustberry.exe
 rustberry.exe: ELF 32-bit LSB pie executable, ARM, EABI5 version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-armhf.so.3, for GNU/Linux 3.2.0, BuildID[sha1]=fe44afa081afc7b0025b39da63c436ebdc7038be, with debug_info, not stripped
 ```
 
-Typically, the main function of Rust ELFs follows the naming convention `<project_name>::main`, and indeed we find `rustberry::main` in Ghidra's decompiled output.
+Typically, the main function of Rust ELFs follows the naming convention `<project_name>::main`, and indeed we find `rustberry::main` in Ghidra's decompilation of the binary.
 
 ```c
 void main(undefined4 param_1,undefined4 param_2)
@@ -61,7 +61,7 @@ Examining it, a few things stand out:
 ```c
 __s2 = (undefined4 *)std::alloc::__default_lib_allocator::__rust_alloc(0xac,4);
 if (__s2 == (undefined4 *)0x0) {
-                /* WARNING: Subroutine does not return */
+/* WARNING: Subroutine does not return */
 alloc::alloc::handle_alloc_error(0xac,4);
 }
 __s2[0x25] = 7;
