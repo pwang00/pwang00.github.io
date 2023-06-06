@@ -23,7 +23,7 @@ nc vaulted.nc.jctf.pro 1337
 
 We're given a binary `rustberry.exe`, which seems to be have been initially written in Rust and compiled for ARMv7+:
 
-```
+```sh
 $ file rustberry.exe 
 rustberry.exe: ELF 32-bit LSB pie executable, ARM, EABI5 version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-armhf.so.3, for GNU/Linux 3.2.0, BuildID[sha1]=fe44afa081afc7b0025b39da63c436ebdc7038be, with debug_info, not stripped
 ```
