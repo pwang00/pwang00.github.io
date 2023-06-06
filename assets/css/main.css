@@ -252,7 +252,7 @@ footer.sticky-bottom { border-top: 1px solid var(--global-divider-color); paddin
 
 figure.highlight { margin: 0 0 1rem; }
 
-pre { color: var(--global-theme-color); background-color: var(--global-code-bg-color); border-radius: 6px; padding: 6px 12px; }
+pre { color: var(--global-text-color); background-color: var(--global-code-bg-color); border-radius: 6px; padding: 6px 12px; }
 
 pre pre, pre code { background-color: transparent; border-radius: 0; padding: 0; }
 
