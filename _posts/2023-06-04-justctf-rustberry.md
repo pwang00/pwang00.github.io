@@ -7,7 +7,7 @@ tags: reversing justCTF2023
 categories: CTFs
 ---
 
-Rustberry was a reverse engineering challenge that was worth 201 points at the end of [JustCTF 2023](https://ctftime.org/event/1930/).  
+Rustberry was a reverse engineering challenge that was worth 201 points at the end of [JustCTF 2023](https://ctftime.org/event/1930/).  You can download the original challenge [here.](https://pwang00.github.io/assets/challenges/justctf2023/rev/rustberry.exe)
 
 ## Problem Description
 

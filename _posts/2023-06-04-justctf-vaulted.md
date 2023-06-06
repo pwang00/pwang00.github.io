@@ -7,7 +7,7 @@ tags: cryptography justCTF2023
 categories: CTFs
 ---
 
-Vaulted was a cryptography challenge that was worth 199 points at the end of [JustCTF 2023](https://ctftime.org/event/1930/).  
+Vaulted was a cryptography challenge that was worth 199 points at the end of [JustCTF 2023](https://ctftime.org/event/1930/).  You can download the original challenge [here.](https://pwang00.github.io/assets/challenges/justctf2023/crypto/vaulted.py)
 
 ## Problem Description
 
