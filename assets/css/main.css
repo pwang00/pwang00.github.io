@@ -256,7 +256,7 @@ pre { color: var(--global-text-color); background-color: var(--global-code-bg-co
 
 pre pre, pre code { background-color: transparent; border-radius: 0; padding: 0; }
 
-code { color: var(--global-text-color); background-color: var(--global-code-bg-color); border-radius: 3px; padding: 3px 3px; }
+code { color: var(--global-text-color); background-color: transparent; border-radius: 3px; padding: 3px 3px; }
 
 html.transition, html.transition *, html.transition *:before, html.transition *:after { transition: all 750ms !important; transition-delay: 0 !important; }
 
