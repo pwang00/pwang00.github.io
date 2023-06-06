@@ -1,7 +1,7 @@
 ---
 layout: page
 title: CTF Writeups
-description: Contains a list of problems (most of which are probably cryptography) that I solved or helped solve
+description: Maintaining a list of CTF problems (most of which are probably cryptography) that I solved or helped solve
 img: assets/img/dg.png
 redirect: https://github.com/pwang00/CTF-Writeups
 importance: 3

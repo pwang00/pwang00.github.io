@@ -1,7 +1,7 @@
 ---
 layout: page
 title: PietCC
-description: A Rust interpreter and compiler for the Piet esoteric language using LLVM as a backend, with full support for program codel-size inference, white block elimination, warning about nontermination for certain classes of programs, and emitting optimized IR through running LLVM optimization passes.
+description: Implemented a Rust interpreter and compiler for the Piet esoteric language using LLVM as a backend, with full support for program codel-size inference, white block elimination, warning about nontermination for certain classes of programs, and emitting optimized IR through running LLVM optimization passes.
 img: assets/img/piet_pi.webp
 redirect: https://github.com/pwang00/pietcc
 importance: 3

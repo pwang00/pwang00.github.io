@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Manticore Provisioner
-description: A Python wrapper around Ansible to automatically provision Manticore jobs both locally and in the cloud
+description: Wrote a Python wrapper around Ansible to automatically provision Manticore jobs both locally and in the cloud
 img: assets/img/manticore.png
 redirect: https://github.com/trailofbits/mc-ansible
 importance: 3
