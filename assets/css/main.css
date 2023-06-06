@@ -1,12 +1,12 @@
 /******************************************************************************* Variables used throughout the theme. To adjust anything, simply edit the variables below and rebuild the theme. */
 /******************************************************************************* Themes */
-:root { --global-bg-color: #ffffff; --global-code-bg-color: rgba(181, 9, 172, 0.05); --global-text-color: #000000; --global-text-color-light: #828282; --global-theme-color: #B509AC; --global-hover-color: #B509AC; --global-footer-bg-color: #1C1C1D; --global-footer-text-color: #e8e8e8; --global-footer-link-color: #ffffff; --global-distill-app-color: #828282; --global-divider-color: rgba(0,0,0,.1); --global-card-bg-color: #ffffff; }
+:root { --global-bg-color: #ffffff; --global-code-bg-color: rgba(181, 9, 172, 0.05); --global-text-color: #000000; --global-text-color-light: #828282; --global-theme-color: #B509AC; --global-code-color: #000000; --global-hover-color: #B509AC; --global-footer-bg-color: #1C1C1D; --global-footer-text-color: #e8e8e8; --global-footer-link-color: #ffffff; --global-distill-app-color: #828282; --global-divider-color: rgba(0,0,0,.1); --global-card-bg-color: #ffffff; }
 
 :root .fa-sun { display: none; }
 
 :root .fa-moon { padding-left: 10px; padding-top: 12px; display: block; }
 
-html[data-theme='dark'] { --global-bg-color: #1C1C1D; --global-code-bg-color: #2c3237; --global-text-color: #e8e8e8; --global-text-color-light: #e8e8e8; --global-theme-color: #2698BA; --global-hover-color: #2698BA; --global-footer-bg-color: #e8e8e8; --global-footer-text-color: #1C1C1D; --global-footer-link-color: #000000; --global-distill-app-color: #e8e8e8; --global-divider-color: #424246; --global-card-bg-color: #212529; }
+html[data-theme='dark'] { --global-bg-color: #1C1C1D; --global-code-bg-color: #2c3237; --global-text-color: #e8e8e8; --global-text-color-light: #e8e8e8; --global-theme-color: #2698BA; --global-code-color: #000000; --global-hover-color: #2698BA; --global-footer-bg-color: #e8e8e8; --global-footer-text-color: #1C1C1D; --global-footer-link-color: #000000; --global-distill-app-color: #e8e8e8; --global-divider-color: #424246; --global-card-bg-color: #212529; }
 
 html[data-theme='dark'] .fa-sun { padding-left: 10px; padding-top: 12px; display: block; }
 
@@ -256,7 +256,7 @@ pre { color: var(--global-theme-color); background-color: var(--global-code-bg-c
 
 pre pre, pre code { background-color: transparent; border-radius: 0; padding: 0; }
 
-code { color: var(--global-theme-color); background-color: var(--global-code-bg-color); border-radius: 3px; padding: 3px 3px; }
+code { color: var(--global-code-color); background-color: var(--global-code-bg-color); border-radius: 3px; padding: 3px 3px; }
 
 html.transition, html.transition *, html.transition *:before, html.transition *:after { transition: all 750ms !important; transition-delay: 0 !important; }
 
