@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Improving Manticore state awareness with Ansible and DigitalOcean
+title: Improving Manticore state awareness with Ansible and DigitalOcean (Trail of Bits)
 date: 2020-01-26 16:11:00-0400
 inline: false
 ---
