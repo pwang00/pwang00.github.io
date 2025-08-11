@@ -45,7 +45,7 @@ $$c_1 = m^e \pmod{N}$$
 
 $$c_2 = m^{p + q} \pmod{N}$$
 
-By Euler's theorem, we have for $$m, N$$ coprime (as is the case here), $$m^{\varphi(N)} \equiv 1 \pmod{N}$$.  Then since $$N = pq$$, $$\varphi(N) = N - (p + q) + 1$$, so $$N \equiv p + q - 1 \pmod{\varphi(N)}$$, meaning $$m^{p + q} \equiv m^{N + 1} \pmod{N}$$.  
+By Euler's theorem, we have for $$m, N$$ coprime (as is the case here), $$m^{\varphi(N)} \equiv 1 \pmod{N}$$.  Then since $$N = pq$$, $$\varphi(N) = N - (p + q) + 1$$, so $$N + 1 \equiv p + q \pmod{\varphi(N)}$$, meaning $$m^{p + q} \equiv m^{N + 1} \pmod{N}$$.  
 
 To recover $$m$$, we verify that $$\gcd(e, N + 1) = 1$$.  By Bézout's identity, there exist integers $$x, y$$ such that $$ex + (N + 1)y = 1$$, and computing these is simple with the extended Euclidean algorithm.  Then 
 
