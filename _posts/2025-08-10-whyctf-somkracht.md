@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Vaulted (199) - JustCTF 2023
-date: 2023-06-05 11:12:00-0400
+title: Somkracht (200) - WhyCTF 2025
+date: 2025-08-10 11:12:00-0400
 description: Cryptography in practice
-tags: cryptography justCTF2023
+tags: cryptography WhyCTF 2025
 categories: CTFs
 ---
 
