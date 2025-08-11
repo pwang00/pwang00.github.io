@@ -53,7 +53,7 @@ $$ c_1^x c_2^y = (m^e)^x (m^{N + 1})^y$$
 
 $$ = m^{ex + (N + 1)y} $$
 
-$$ = m $$ 
+$$ \equiv m \pmod{N} $$ 
 
 This can be done concisely in Sage:
 
