@@ -39,13 +39,17 @@ ct1 = 84995263214882667620281274749772639834743347136469629231807579847080395372
 ct2 = 2263178005282615069738169250508811825030372342139636879043114251227029802177975391784856426659871916802959302578620910469427367218786299839311310420522660987052055310279591316813828952756984548230575321772825193775083404279028090110850848262192595930920326368607665856808251531130234210906413358662814500632504899088517752958423466186872534450108628371006268110210630017230741670440780982809417986017372337888735465439382827207990030719121834402226087906249993820193417658352914727984318783025375497623944699995700474418221251293446038111913247755996471673024017921092527032486774115935601292346440934530921157935322
 ```
 
-We're given two RSA ciphertexts: $$c_1 = m^e (mod N)$$ and $$c_2 = m^{p + q} (mod N)$$.  By Euler's theorem, we have for $$m, N$$ coprime (as is the case here), $$m^{\phi{N}} \equiv 1 (mod N)$$.  Then since $$N = pq$$, $$\phi(N) = N - (p + q) + 1$$, so $$N \mod \phi(N) = p + q - 1$$, meaning $$m^{p + q} \equiv m^{N + 1} (mod N)$$.  
+We're given two RSA ciphertexts: 
 
-To recover $$m$$, we verify that $$gcd(e, N + 1) = 1$$.  By Bézout's identity, there exist integers $$x, y$$ such that $$ex + (N + 1)y = 1$$, and computing these is simple with the extended Euclidean algorithm.  Then 
+$$c_1 = m^e \pmod{N}$$
 
-$$ c_1^x c_2^y$$ 
+$$c_2 = m^{p + q} \pmod{N}$$
 
-$$ = (m^e)^x (m^{N + 1})^y$$
+By Euler's theorem, we have for $$m, N$$ coprime (as is the case here), $$m^{\eulerphi(N)} \equiv 1 (mod N)$$.  Then since $$N = pq$$, $$\eulerphi(N) = N - (p + q) + 1$$, so $$N \mod \phi(N) = p + q - 1$$, meaning $$m^{p + q} \equiv m^{N + 1} (mod N)$$.  
+
+To recover $$m$$, we verify that $$\gcd(e, N + 1) = 1$$.  By Bézout's identity, there exist integers $$x, y$$ such that $$ex + (N + 1)y = 1$$, and computing these is simple with the extended Euclidean algorithm.  Then 
+
+$$ c_1^x c_2^y = (m^e)^x (m^{N + 1})^y$$
 
 $$ = m^{ex + (N + 1)y} $$
 
