@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Why The Bear Has No Tail  (50) - WhyCTF 2025
+title: Why The Bear Has No Tail  (50) - TFC CTF 2025
 date: 2025-08-31 11:12:00-0400
 description: Cryptography in practice
 tags: cryptography TFC CTF 2025 Mersenne Twister state recovery
@@ -62,17 +62,17 @@ if __name__ == "__main__":
     c.loop()
 ```
 
-Looking at the code, we're given two options:
+Looking at the code, we see two options:
 
-* Sample a random element in the range [0, 2^26) up to 2000 times.
-* Query the xor cipher-encrypted flag, where the key is formed by randomly choosing indices from [0, 256)
+* Sample a random element in the range [0, 2^26) up to 2000 times
+* Query the XOR cipher-encrypted flag, where the key is formed by randomly choosing indices from [0, 256)
 
 Recall that Python's random module implements Mersenne Twister, and being able to sample 2000 consecutive outputs strongly suggests that a state recovery attack is the intended solution.  However, there are a few twists: 
 
-* Traditional state recovery attacks against Mersenne Twister typically require at least 624 32-bit integer samples, but each sample here is truncated to 2^26, or the 26 MSBs.  
-* `random.choices()` calls `random.random()` under the hood, which generates 2 random 32-bit integers and partially truncates them before computing the float.
+* Traditional state recovery attacks against Mersenne Twister typically require at least 624 32-bit integer samples, but each sample here is truncated to 2^26, meaning we only get 26 bits of information (and we haven't yet ascertained which 26 bits)
+* `random.choices()` calls `random.random()` under the hood, which generates 2 random 32-bit integers and partially truncates them before computing the float
 
-This setup can be broken with [SymRandCracker](https://github.com/icemonster/symbolic_mersenne_cracker/tree/main), but let's first examine both of the above methods to better understand their indiosyncracies and set the solver up correctly.
+This setup can be broken with [SymRandCracker](https://github.com/icemonster/symbolic_mersenne_cracker/tree/main), but let's first examine both of the above methods to better understand their idiosyncracies and ensure that we set the solver up correctly.
 
 `random.choices` is implemented directly in Python:
 
@@ -96,7 +96,7 @@ def choices(self, population, weights=None, *, cum_weights=None, k=1):
 
 The call-site in the challenge code is `random.choices(range(self.n), k=1)`, and only the relevant branch is shown.
 
-`random.random()`, on the other hand, is implemented in C via `_random_Random_random_impl`:
+`random.random()`, on the other hand, is implemented in C via `_random_Random_random_impl()`:
 
 ```C
 static PyObject *
@@ -108,9 +108,15 @@ _random_Random_random_impl(RandomObject *self)
 }
 ```
 
-There are two successive calls to `genrand_uint32`, which each generate 32-bit integers (call these x and y respectively); then `a = x >> 5` and `b = y >> 6`.  Furthermore, the constants `67108864` and `9007199254740992` correspond to 2^26 and 2^53, respectively.  By construction, `a` in [0, 2^27) and `b` in [0, 2^26).   
+There are two successive calls to `genrand_uint32`, which each generate 32-bit integers (call these x and y respectively); then 
 
-Tying this back to the `floor(random() * n)` call in `random.choices` (where n = 2^26 as in the challenge), we can obtain a mathematical representation for the output.
+$$ a = x \gg 5 \implies a \in [0, 2^{27})$$
+
+$$ b = y \gg 6 \implies a \in [0, 2^{26}) $$
+
+Furthermore, the constants 67108864 and 9007199254740992 correspond to 2^26 and 2^53, respectively.
+
+Tying this back to the `floor(random() * n)` call in `random.choices()` (where n = 2^26 as in the challenge), we can obtain a mathematical representation for the output.
 
 $$ a < 2^{27}, b < 2^{26} \implies \Big\lfloor \frac{a\cdot 2^{26} + b}{2^{53}} \cdot 2^{26}\Big\rfloor$$
 
@@ -120,30 +126,14 @@ $$ = \Big\lfloor\frac{a\cdot 2^{52} + b\cdot 2^{26}}{2^{53}}\Big\rfloor $$
 
 $$ = \Big\lfloor\frac{a}{2} + \frac{b}{2^{27}}\Big\rfloor $$
 
-$$ = \Big\lfloor\frac{a}{2} \Big\rfloor = (x \gg 6) $$
+$$ = \Big\lfloor\frac{a}{2} \Big\rfloor = x \gg 6 $$
 
 This leads to two key insights.  Every time we query a new sample:
 
-* We get the 26 _most significant bits_ of the first word.  
-* We get no information on the second word.
+* We get the 26 _most significant bits_ of the first word
+* We get no information on the second word
 
-This is important, because it tells us how to set up the constraints for `SymRandCracker`.  
-
-The API provides a usage example:
-
-```python
-ut = Untwister()
-for _ in range(1337):
-    random_num = r1.getrandbits(16)
-    #Just send stuff like "?11????0011?0110??01110????01???"
-        #Where ? represents unknown bits
-    ut.submit(bin(random_num)[2:] + '?'*16)
-
-r2 = ut.get_random()
-...
-```
-
-So in our setup, we want to submit to the solver twice per iteration: once with our left-padded 26 bit sample with 6 unknown least significant bits, and another time with 32 bits completely unknown:
+Together, these insights allow us to deduce how to set up the constraints for SymRandCracker.  In our setup, we want to submit two constraints per sample: the first being our left-padded 26 bit sample with 6 unknown least significant bits, and the second being 32 unknown (free) bits:
 
 ```python
 ut = Untwister()
@@ -157,15 +147,15 @@ r2 = ut.get_random()
 ...
 ```
 
-Once the solver recovers the RNG state, we can then recover the key and xor it with the flag.
+Once the solver recovers the RNG state, we can then recover the key and XOR it with the flag.
 
 All that remains is for us to implement the connection logic.  To be precise, the plan is to 
 
-* Obtain ~1200 samples of truncated Mersenne Twister output
-* Run SymRandCracker on those samples, recovering the initial state
+* Obtain ~1400 samples of truncated Mersenne Twister output
+* Run SymRandCracker on those samples, recovering a `Random` Mersenne Twister object with the initial state
 * Request the encrypted flag
-* Call `random.choices` on the recovered RNG and indices, thereby recovering the key
-* XOR the key with the flag
+* Call `random.choices()` on the recovered RNG and indices, thereby recovering the key
+* XOR the key with the flag and decode
 
 The full script to do this proceeds:
 
