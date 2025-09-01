@@ -67,14 +67,14 @@ Looking at the code, we see two options:
 * Sample a random element in the range [0, 2^26) up to 2000 times
 * Query the XOR cipher-encrypted flag, where the key is formed by randomly choosing indices from [0, 256)
 
-Recall that Python's random module implements Mersenne Twister, and being able to sample 2000 consecutive outputs strongly suggests that a state recovery attack is the intended solution.  However, there are a few twists: 
+Recall that Python's random module implements Mersenne Twister (MT19937), and being able to sample 2000 consecutive outputs strongly suggests that a state recovery attack is the intended solution.  However, there are a few caveats: 
 
-* Traditional state recovery attacks against Mersenne Twister typically require at least 624 32-bit integer samples, but each sample here is truncated to 2^26, meaning we only get 26 bits of information (and we haven't yet ascertained which 26 bits)
-* `random.choices()` calls `random.random()` under the hood, which generates 2 random 32-bit integers and partially truncates them before computing the float
+* Traditional state recovery attacks against MT19937 typically require at least 624 32-bit integer samples, but each sample here is truncated in a manner that preseves only 26 bits of information (and we haven't yet ascertained the structure of those 26 bits)
+* The truncation itself is not guaranteed to be expressible in terms of bitwise operations, which might complicate recovery
 
-This setup can be broken with [SymRandCracker](https://github.com/icemonster/symbolic_mersenne_cracker/tree/main), but let's first examine both of the above methods to better understand their idiosyncracies and ensure that we set the solver up correctly.
+Let's first examine the `random.choices()` call to better understand its idiosyncracies so we can verify the above.
 
-`random.choices` is implemented directly in Python:
+`random.choices()` is implemented directly in Python:
 
 ```python
 def choices(self, population, weights=None, *, cum_weights=None, k=1):
@@ -94,9 +94,9 @@ def choices(self, population, weights=None, *, cum_weights=None, k=1):
     ...
 ```
 
-The call-site in the challenge code is `random.choices(range(self.n), k=1)`, and only the relevant branch is shown.
+The call-site in the challenge code is `random.choices(range(self.n), k=1)`, and only the relevant branch is shown. 
 
-`random.random()`, on the other hand, is implemented in C via `_random_Random_random_impl()`:
+Within this branch, we see a `floor(random() * n)` call, of which the actual implementation of `random.random()` is in C via `_random_Random_random_impl()`:
 
 ```C
 static PyObject *
@@ -116,7 +116,7 @@ $$ b = y \gg 6 \implies a \in [0, 2^{26}) $$
 
 Furthermore, the constants 67108864 and 9007199254740992 correspond to 2^26 and 2^53, respectively.
 
-Tying this back to the `floor(random() * n)` call in `random.choices()` (where n = 2^26 as in the challenge), we can obtain a mathematical representation for the output.
+Tying this back to the `floor(random() * n)` call in `random.choices()` (where n = 2^26 as in the challenge), we can obtain a mathematical representation of the output:
 
 $$ a < 2^{27}, b < 2^{26} \implies \Big\lfloor \frac{a\cdot 2^{26} + b}{2^{53}} \cdot 2^{26}\Big\rfloor$$
 
@@ -128,12 +128,13 @@ $$ = \Big\lfloor\frac{a}{2} + \frac{b}{2^{27}}\Big\rfloor $$
 
 $$ = \Big\lfloor\frac{a}{2} \Big\rfloor = x \gg 6 $$
 
-This leads to two key insights.  Every time we query a new sample:
+This leads to a few key insights.  Every time we query a new sample:
 
 * We get the 26 _most significant bits_ of the first word
 * We get no information on the second word
+* The truncation indeed reduces to a bitwise rshift
 
-Together, these insights allow us to deduce how to set up the constraints for SymRandCracker.  In our setup, we want to submit two constraints per sample: the first being our left-padded 26 bit sample with 6 unknown least significant bits, and the second being 32 unknown (free) bits:
+Together, these insights suggest [SymRandCracker](https://github.com/icemonster/symbolic_mersenne_cracker/tree/main) is suitable for recovering the MT19937 state, and furthermore, allow us to deduce the correct constraints to submit.  In our scenario, we want to submit two constraints per sample: the first being our left-padded 26 bit sample with 6 unknown least significant bits, and the second being 32 unknown (free) bits:
 
 ```python
 ut = Untwister()
@@ -147,15 +148,15 @@ r2 = ut.get_random()
 ...
 ```
 
-Once the solver recovers the RNG state, we can then recover the key and XOR it with the flag.
+Once the solver recovers the RNG state, we can recover the key and XOR it with the flag.
 
 All that remains is for us to implement the connection logic.  To be precise, the plan is to 
 
-* Obtain ~1400 samples of truncated Mersenne Twister output
-* Run SymRandCracker on those samples, recovering a `Random` Mersenne Twister object with the initial state
+* Obtain ~1400 samples of truncated MT19937 output
+* Run SymRandCracker on those samples, recovering a `random.Random` object with the initial state
 * Request the encrypted flag
 * Call `random.choices()` on the recovered RNG and indices, thereby recovering the key
-* XOR the key with the flag and decode
+* XOR the key with the flag and decrypt
 
 The full script to do this proceeds:
 
