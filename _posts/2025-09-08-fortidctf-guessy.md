@@ -165,7 +165,7 @@ $$ = m_1 + m_2 \bmod{n} $$
 
 This additive homomorphism property will be extremely useful.  Observe that `ans` performs the Paillier encryption $$ c_x = E(x + A) $$, and `compute` performs the Paillier decryption $$ D(c_x\cdot c_i) $$, where $$ x $$ denotes the secret, $$ A $$ is the constant shift of `0xD3ADC0DE`, and $$ c_i $$ is a ciphertext we control.  Furthermore, the secret itself is drawn from a small sample space of $$\{0..2047\}$$.  
 
-A direct implication of additive homomorphism is that if we use our encryption oracle to generate ciphertexts $$ c_i = E(-(x_i + A)) $$ for every $$ x_i \in \{0..2047\} $$, at least one of these must yield a Paillier decryption of 0 on the server, since for some $$c_i, D(c_x \cdot c_i) = D(E(x + A) \cdot E(-(x + A))) = D(E(0)) = 0$$.  This also nullifies the subsequent RSA encryptions, since 0 is a fixed point under any unpadded RSA operation.  Thus, we have a distinguishing condition that could lead to information leakage!
+A direct implication of additive homomorphism is that if we use our encryption oracle to generate ciphertexts $$ c_i = E(-(x_i + A)) $$ for every $$ x_i \in \{0..2047\} $$, exactly one of these must yield a Paillier decryption of 0 on the server, since for some $$c_i, D(c_x \cdot c_i) = D(E(x + A) \cdot E(-(x + A))) = D(E(0)) = 0$$.  This also nullifies the subsequent RSA encryptions, since 0 is a fixed point under any unpadded RSA operation.  Thus, we have a distinguishing condition that could lead to information leakage!
 
 Returning to `ans`, we're asked to submit 7 lines / lists of numbers with the condition that each list contain an even number of elements.  The lists are then bisected into a left and right half before the aggregated product of the RSA encryptions / Pailler decryptions on our supplied ciphertexts are computed on both, and the results of the encryptions of the left and right halves of each list are printed.
 
@@ -202,7 +202,7 @@ The general idea proceeds as follows:
 * For every $$ i, (c_1, c_2) $$ in the line
     * If $$ c_1 $$ and $$ c_2 $$ are nonzero, then set the $$ i $$th digit to 0
     * If $$ c_1 = 0 $$, then set the $$ i $$th digit to 1
-    * If $$ c_1 = 2 $$, then set the $$ i $$th digit to 2
+    * If $$ c_2 = 0 $$, then set the $$ i $$th digit to 2
 * Recover the secret as $$ x = \sum_{i = 0}^6 3^i\cdot D_i $$
 
 The full implementation proceeds.  Note that we sometimes have to pad the left and right halves to ensure each line contains an even number of elements, but the intuition remains unchanged.
