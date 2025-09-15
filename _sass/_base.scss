@@ -128,19 +128,6 @@ blockquote {
   }
 }
 
-/* Exact Overleaf-style math rendering */
-mjx-container {
-  font-family: "Latin Modern Math", "STIX Two Math", serif !important;
-  font-weight: 400 !important;   /* normal text weight */
-  font-size: 1em;                /* keep size consistent with body text */
-  line-height: 1.2;              /* matches LaTeX inline spacing */
-}
-
-/* Ensure bold in math isn’t overpowering */
-mjx-container [mathvariant="bold"] {
-  font-weight: 600 !important;
-}
-
 // Navbar customization
 
 .navbar {

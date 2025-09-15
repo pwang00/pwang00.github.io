@@ -141,9 +141,9 @@ if __name__ == '__main__':
 
 Let's analyze the protocol implementation in more detail.  
 
-Firstly, we note that classes `A` and `B` perform RSA and Paillier operations.  On every round, the server provides us with the Pailler modulus $$ n = pq $$.  This is important, because with $$ g = n + 1$$ known, we can construct an encryption oracle and generate arbitrary Paillier ciphertexts.  Furthermore, Paillier encryption is additively homomorphic over plaintexts--that is, letting $$ E $$ and $$ D $$ denote the encryption and decryption operations, we have for plaintexts $$ m_1, m_2$$, that $$ D(E(m_1) \cdot E(m_2)) = m_1 + m_2$$.  
+Firstly, we note that classes `A` and `B` perform RSA and Paillier operations.  On every round, the server provides us with the Pailler modulus $$ n = pq $$.  This is important, because with $$ g = n + 1$$ known, we can construct an encryption oracle and generate arbitrary Paillier ciphertexts.  
 
-Recall that any Paillier ciphertext has form $$c = g^m r^n \bmod{n^2} $$, where $$ r $$ is a randomizer chosen from $$[1, n - 1]$$ satisfying $$ \gcd(r, n) = 1 $$.  Pailler decryption is given by $$ m = L(c^\lambda \bmod{n^2}) \cdot \mu$$, where 
+Furthermore, Paillier encryption is additively homomorphic over plaintext: recall that any Paillier ciphertext has form $$c = g^m r^n \bmod{n^2} $$, where $$ r $$ is a randomizer chosen from $$[1, n - 1]$$ satisfying $$ \gcd(r, n) = 1 $$.  Pailler decryption is given by $$ m = L(c^\lambda \bmod{n^2}) \cdot \mu$$, where 
 
 * $$ \mu = L(g^\lambda \bmod{n^2})^{-1} \bmod{n}$$ is a multiplier
 * $$ \lambda $$ is the evaluation of the Carmichael function $$\lambda(n) = \text{lcm}(p - 1, q - 1) $$ for $$ n = pq $$
@@ -169,7 +169,7 @@ A direct implication of additive homomorphism is that if we use our encryption o
 
 Returning to `ans`, we're asked to submit 7 lines / lists of numbers with the condition that each list contain an even number of elements.  The lists are then bisected into a left and right half before the aggregated product of the RSA encryptions / Pailler decryptions on our supplied ciphertexts are computed on both, and the results of the encryptions of the left and right halves of each list are printed.
 
-This bisection logic seems especially promising for further building up our distinguisher, since it encodes positional information about the secret.  Suppose we were to naively partition our 2048 relevant ciphertexts into chunks of size 2048 // 7 and submitted those across 7 lines--we would expect the server to return 0 on either the first or second encryption on any of the 7 lines returned by the server.  This would let us bound the index to a certain subinterval of $$ \{0..2047\} $$--not quite good enough to return the secret, but certainly directionally correct approach-wise.
+This bisection logic seems especially promising for further building up our distinguisher, since it encodes positional information about the secret.  To give some intuition: suppose we were to naively partition our 2048 relevant ciphertexts into chunks of size 2048 // 7 and submit those across 7 lines--we would expect the server to return 0 on either the first or second encryption on any of the 7 lines returned by the server.  This would let us bound the index to a certain subinterval of $$ \{0..2047\} $$--not quite good enough to return the secret, but certainly directionally correct approach-wise.
 
 Can we do better?
 
@@ -181,13 +181,13 @@ We now know that there three possible outcomes concerning the appearance of the 
 * 0 occurs as the second number of a line
 * 0 does not occur in a line
 
-The natural extension of this is to build a trit-based coding scheme.  With 7 total lines, we can encode 3^7 = 2187 possibilites--greater than the 2048 for the secret!  
+Using these conditions, we can build a trit-based coding scheme.  With 7 total lines, we can encode 3^7 = 2187 possibilites--greater than the 2048 for the secret!  
 
 The general idea proceeds as follows:
 
 #### Encoding
 
-* Initialize `L` as a list of rows, each row being [left_half, right_half] = [[], []]
+* Initialize a list of rows, each row being [left_half, right_half] = [[], []]
 * For every $$ x_i \in \{0..2047\}$$, generate a ciphertext $$ c_i = E(-(x_i + A))$$, derive its ternary representation and index the digits
 * For every (index, digit) in the representation:
     * If the digit is 0, exclude $$ c_i $$ from the $$i$$th row
