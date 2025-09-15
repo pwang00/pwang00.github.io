@@ -141,11 +141,13 @@ if __name__ == '__main__':
 
 Let's analyze the protocol implementation in more detail.  
 
-Firstly, we note that classes `A` and `B` perform RSA and Paillier operations.  On every round, the server provides us with the Pailler modulus $$ n = pq $$.  This is important, because with $$ g = n + 1$$ known, we can construct an encryption oracle and generate arbitrary Paillier ciphertexts.  Furthermore, Paillier encryption is additively homomorphic over plaintexts--that is, letting $$ E $$ and $$ D $$ denote the encryption and decryption operations, we have for plaintexts $$ m_1, m_2$$, that $$ D(E(m_1) \cdot E(m_2)) = m_1 + m_2$$.  Recall that any Paillier ciphertext has form $$c = g^m r^n \bmod{n^2} $$, where $$ r $$ is a randomizer chosen from $$[1, n - 1]$$ satisfying $$ \gcd(r, n) = 1 $$.  Pailler decryption is given by $$ m = L(c^\lambda \bmod{n^2}) \cdot \mu$$, where 
+Firstly, we note that classes `A` and `B` perform RSA and Paillier operations.  On every round, the server provides us with the Pailler modulus $$ n = pq $$.  This is important, because with $$ g = n + 1$$ known, we can construct an encryption oracle and generate arbitrary Paillier ciphertexts.  Furthermore, Paillier encryption is additively homomorphic over plaintexts--that is, letting $$ E $$ and $$ D $$ denote the encryption and decryption operations, we have for plaintexts $$ m_1, m_2$$, that $$ D(E(m_1) \cdot E(m_2)) = m_1 + m_2$$.  
+
+Recall that any Paillier ciphertext has form $$c = g^m r^n \bmod{n^2} $$, where $$ r $$ is a randomizer chosen from $$[1, n - 1]$$ satisfying $$ \gcd(r, n) = 1 $$.  Pailler decryption is given by $$ m = L(c^\lambda \bmod{n^2}) \cdot \mu$$, where 
 
 * $$ \mu = L(g^\lambda \bmod{n^2})^{-1} \bmod{n}$$ is a multiplier
 * $$ \lambda $$ is the evaluation of the Carmichael function $$\lambda(n) = \text{lcm}(p - 1, q - 1) $$ for $$ n = pq $$
-* $$ L(x) = \frac{x - 1}{n} $$ computes the discrete logarithm of $$(n + 1)^x mod $$ n^2 $$
+* $$ L(x) = \frac{x - 1}{n} $$ computes the discrete logarithm of $$(n + 1)^x \bmod n^2 $$
 
 Let $$ c_1 = g^m_1 r_1^n \bmod{n^2} $$ and $$ c_2 = g^m_2 r_2^n \bmod{n^2} $$.  Then
 
@@ -196,7 +198,7 @@ The general idea proceeds as follows:
 #### Decoding
 
 * Read all lines from the server and index them
-* Initialize a list $$ D $$ corresponding whose elements are the ternary digits of the secret
+* Initialize a list $$ D $$ whose elements are the ternary digits of the secret
 * For every $$ i, (c_1, c_2) $$ in the line
     * If $$ c_1 $$ and $$ c_2 $$ are nonzero, then set the $$ i $$th digit to 0
     * If $$ c_1 = 0 $$, then set the $$ i $$th digit to 1
