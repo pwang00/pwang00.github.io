@@ -169,7 +169,7 @@ A direct implication of additive homomorphism is that if we use our encryption o
 
 Returning to `ans`, we're asked to submit 7 lines / lists of numbers with the condition that each list contain an even number of elements.  The lists are then bisected into a left and right half before the aggregated product of the RSA encryptions / Pailler decryptions on our supplied ciphertexts are computed on both, and the results of the encryptions of the left and right halves of each list are printed.
 
-This bisection logic seems especially promising for further building up our distinguisher, since it encodes positional information about the secret.  To give some intuition: suppose we were to naively partition our 2048 relevant ciphertexts into chunks of size 2048 // 7 and submit those across 7 lines--we would expect the server to return 0 on either the first or second encryption on any of the 7 lines returned by the server.  This would let us bound the index to a certain subinterval of $$ \{0..2047\} $$--not quite good enough to return the secret, but certainly directionally correct approach-wise.
+This bisection logic seems especially promising for further building up our distinguisher, since it encodes positional information about the secret.  To give some intuition: suppose we were to naively partition our 2048 relevant ciphertexts into chunks of size 2048 // 7 and submit those across 7 lines--we would expect the server to return 0 on either the first or second encryption on any of the 7 lines returned by the server.  This would let us bound the index to a certain subinterval of $$ \{0..2047\} $$--not quite good enough to return the secret, but certainly directionally correct in terms of approach.
 
 Can we do better?
 
