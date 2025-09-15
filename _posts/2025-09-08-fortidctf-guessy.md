@@ -143,7 +143,7 @@ Let's analyze the protocol implementation in more detail.
 
 Firstly, we note that classes `A` and `B` perform RSA and Paillier operations.  On every round, the server provides us with the Pailler modulus $$ n = pq $$.  This is important, because with $$ g = n + 1$$ known, we can construct an encryption oracle and generate arbitrary Paillier ciphertexts.  
 
-Furthermore, Paillier encryption is additively homomorphic over plaintext: recall that any Paillier ciphertext has form $$c = g^m r^n \bmod{n^2} $$, where $$ r $$ is a randomizer chosen from $$[1, n - 1]$$ satisfying $$ \gcd(r, n) = 1 $$.  Pailler decryption is given by $$ m = L(c^\lambda \bmod{n^2}) \cdot \mu$$, where 
+Furthermore, Paillier encryption is additively homomorphic over plaintexts: recall that any Paillier ciphertext has form $$c = g^m r^n \bmod{n^2} $$, where $$ r $$ is a randomizer chosen from $$[1, n - 1]$$ satisfying $$ \gcd(r, n) = 1 $$.  Pailler decryption is given by $$ m = L(c^\lambda \bmod{n^2}) \cdot \mu$$, where 
 
 * $$ \mu = L(g^\lambda \bmod{n^2})^{-1} \bmod{n}$$ is a multiplier
 * $$ \lambda $$ is the evaluation of the Carmichael function $$\lambda(n) = \text{lcm}(p - 1, q - 1) $$ for $$ n = pq $$
