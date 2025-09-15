@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Rustberry (201) - JustCTF 2023
+title: Rustberry - JustCTF 2023
 date: 2023-06-05 11:10:00-0400
 description: Rust ARMv7+ reversing
 tags: reversing justCTF2023

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Vaulted (199) - JustCTF 2023
+title: Vaulted - JustCTF 2023
 date: 2023-06-05 11:12:00-0400
 description: Cryptography in practice
 tags: cryptography justCTF2023

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Why The Bear Has No Tail  (50) - TFC CTF 2025
+title: Why The Bear Has No Tail - TFC CTF 2025
 date: 2025-08-31 11:12:00-0400
 description: Cryptography in practice
 tags: cryptography TFC CTF 2025 Mersenne Twister state recovery
@@ -134,7 +134,7 @@ This leads to a few key insights.  Every time we query a new sample:
 * We get no information on the second word
 * The truncation indeed reduces to a bitwise rshift
 
-Together, these insights suggest [SymRandCracker](https://github.com/icemonster/symbolic_mersenne_cracker/tree/main) is suitable for recovering the MT19937 state, and furthermore, allow us to deduce the correct constraints to submit.  In our scenario, we want to submit two constraints per sample: the first being our left-padded 26 bit sample with 6 unknown least significant bits, and the second being 32 unknown (free) bits:
+Together, these suggest [SymRandCracker](https://github.com/icemonster/symbolic_mersenne_cracker/tree/main) is suitable for recovering the MT19937 state, and furthermore, allow us to deduce the correct constraints to submit.  In our scenario, we want to submit two constraints per sample: the first being our left-padded 26 bit sample with 6 unknown least significant bits, and the second being 32 unknown (free) bits:
 
 ```python
 ut = Untwister()
