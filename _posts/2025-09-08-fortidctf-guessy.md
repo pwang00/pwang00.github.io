@@ -149,7 +149,7 @@ Furthermore, Paillier encryption is additively homomorphic over plaintexts: reca
 * $$ \lambda $$ is the evaluation of the Carmichael function $$\lambda(n) = \text{lcm}(p - 1, q - 1) $$ for $$ n = pq $$
 * $$ L(x) = \frac{x - 1}{n} $$ computes the discrete logarithm of $$(n + 1)^x \bmod n^2 $$
 
-Let $$ c_1 = g^m_1 r_1^n \bmod{n^2} $$ and $$ c_2 = g^m_2 r_2^n \bmod{n^2} $$.  Then
+Let $$ c_1 = g^m_1 r_1^n \bmod{n^2}, c_2 = g^m_2 r_2^n \bmod{n^2} $$, and $$ D $$ denote the Paillier decryption operation.  Then
 
 $$ D(c_1 c_2) = L((c_1 c_2)^\lambda \bmod{n^2}) \cdot \mu \bmod{n} $$
 
