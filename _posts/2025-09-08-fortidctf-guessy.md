@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Guessy (100)
+title: Guessy - FortID CTF
 date: 2025-08-31 11:12:00-0400
 description: Cryptography in practice
 tags: cryptography FortID CTF 2025 Paillier RSA Information theory
@@ -143,9 +143,9 @@ Let's analyze the protocol implementation in more detail.
 
 Firstly, we note that classes `A` and `B` perform RSA and Paillier operations.  On every round, the server provides us with the Pailler modulus $$ n = pq $$.  This is important, because with $$ g = n + 1$$ known, we can construct an encryption oracle and generate arbitrary Paillier ciphertexts.  Furthermore, Paillier encryption is additively homomorphic over plaintexts--that is, letting $$ E $$ and $$ D $$ denote the encryption and decryption operations, we have for plaintexts $$ m_1, m_2$$, that $$ D(E(m_1) \cdot E(m_2)) = m_1 + m_2$$.  Recall that any Paillier ciphertext has form $$c = g^m r^n \bmod{n^2} $$, where $$ r $$ is a randomizer chosen from $$[1, n - 1]$$ satisfying $$ \gcd(r, n) = 1 $$.  Pailler decryption is given by $$ m = L(c^\lambda \bmod{n^2}) \cdot \mu$$, where 
 
-* $$ \mu = L(g^\lambda \bmod{n^2})^{-1} \bmod{n}$$
-* $$ \lambda $$ is the evaluation of the Carmichael function $$\lambda(n) = \text{lcm}(p - 1, q - 1) $$ for $$ n = pq $$.  
-* $$ L(x) = \frac{x - 1}{n} $$ 
+* $$ \mu = L(g^\lambda \bmod{n^2})^{-1} \bmod{n}$$ is a multiplier
+* $$ \lambda $$ is the evaluation of the Carmichael function $$\lambda(n) = \text{lcm}(p - 1, q - 1) $$ for $$ n = pq $$
+* $$ L(x) = \frac{x - 1}{n} $$ computes the discrete logarithm of $$(n + 1)^x mod $$ n^2 $$
 
 Let $$ c_1 = g^m_1 r_1^n \bmod{n^2} $$ and $$ c_2 = g^m_2 r_2^n \bmod{n^2} $$.  Then
 
@@ -153,7 +153,7 @@ $$ D(c_1 c_2) = L((c_1 c_2)^\lambda \bmod{n^2}) \cdot \mu \bmod{n} $$
 
 $$ = L(g^{\lambda(m_1 + m_2)} r_1^{n\lambda} r_2^{n\lambda} \bmod{n^2}) \cdot (L(g^\lambda \bmod{n^2}))^{-1}\bmod{n} $$
 
-$$ = L((n + 1)^{\lambda(m_1 + m_2)} \bmod{n^2}) \cdot (L((n + 1)^\lambda \bmod{n^2}))^{-1}\bmod{n} \,\,\,\,\,\,\,\,\,\, \text{(by Euler's theorem and Carmichael function)} $$
+$$ = L((n + 1)^{\lambda(m_1 + m_2)} \bmod{n^2}) \cdot (L((n + 1)^\lambda \bmod{n^2}))^{-1}\bmod{n} \,\,\,\,\,\,\,\,\,\, \text{(by Euler's theorem)} $$
 
 $$ = L(1 + \lambda(m_1 + m_2)n) (L(1 + \lambda n))^{-1} \bmod{n}\,\,\,\,\,\,\,\,\,\, \text{(by binomial theorem)}$$
 
