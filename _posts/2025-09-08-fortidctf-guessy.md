@@ -149,7 +149,7 @@ Furthermore, Paillier encryption is additively homomorphic over plaintexts: reca
 * $$ \lambda $$ is the evaluation of the Carmichael function $$\lambda(n) = \text{lcm}(p - 1, q - 1) $$ for $$ n = pq $$
 * $$ L(x) = \frac{x - 1}{n} $$ computes the discrete logarithm of $$(n + 1)^x \bmod n^2 $$
 
-Let $$ c_1 = g^m_1 r_1^n \bmod{n^2}, c_2 = g^m_2 r_2^n \bmod{n^2} $$, and $$ D $$ denote the Paillier decryption operation.  Then
+Let $$ c_1 = g^m_1 r_1^n \bmod{n^2}, c_2 = g^m_2 r_2^n \bmod{n^2} $$, and $$ E, D $$ denote the Paillier encryption and decryption operations.  Then
 
 $$ D(c_1 c_2) = L((c_1 c_2)^\lambda \bmod{n^2}) \cdot \mu \bmod{n} $$
 
@@ -198,12 +198,12 @@ The general idea proceeds as follows:
 #### Decoding
 
 * Read all lines from the server and index them
-* Initialize a list $$ D $$ whose elements are the ternary digits of the secret
+* Initialize a list $$ X $$ whose elements are the ternary digits of the secret
 * For every $$ i, (c_1, c_2) $$ in the line
     * If $$ c_1 $$ and $$ c_2 $$ are nonzero, then set the $$ i $$th digit to 0
     * If $$ c_1 = 0 $$, then set the $$ i $$th digit to 1
     * If $$ c_2 = 0 $$, then set the $$ i $$th digit to 2
-* Recover the secret as $$ x = \sum_{i = 0}^6 3^i\cdot D_i $$
+* Recover the secret as $$ x = \sum_{i = 0}^6 3^i\cdot X_i $$
 
 The full implementation proceeds.  Note that we sometimes have to pad the left and right halves to ensure each line contains an even number of elements, but the intuition remains unchanged.
 
@@ -214,7 +214,7 @@ from pwn import remote
 
 n_pattern = r"(\d+)"
 guess = "guess"
-C = 0xD3ADC0DE
+A = 0xD3ADC0DE
 
 class PaillierOracle:
     def __init__(self, n):
@@ -234,15 +234,14 @@ def base3_digits(t, k=7):
     return out 
 
 def build_queries(n):
-    C = 0xD3ADC0DE
     P = PaillierOracle(n)
-    xs = [P.encrypt(-(C + t)) for t in range(2048)]
+    xs = [P.encrypt(-(A + xi)) for xi in range(2048)]
 
     lefts  = [[] for _ in range(7)]
     rights = [[] for _ in range(7)]
 
-    for t in range(2048):
-        d = base3_digits(t, 7)
+    for xi in range(2048):
+        d = base3_digits(xi, 7)
         for i in range(7):
             if d[i] == 1:
                 lefts[i].append(xs[t])
