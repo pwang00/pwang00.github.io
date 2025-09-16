@@ -9,9 +9,9 @@ categories: CTFs
 
 ## Overview
 
-This challenge was actually quite neat and drew on insights from public key cryptography and information theory.  
+This challenge was actually quite neat and drew on insights from both public key cryptography and information theory.  
 
-At a high level, we are given the source to a server that implements a 10-round protocol, where a secret is generated per-round and encrypted with [Paillier](https://en.wikipedia.org/wiki/Paillier_cryptosystem).  On each round, we are asked to submit 7 lists of numbers (each with even length), which are split into left and right halves. For each half, the server multiplies the corresponding numbers by the Paillier-encrypted secret, performs Pailler decryption on that result, and returns the product of their RSA encryptions.
+At a high level, we are given the source to a server that implements a 10-round protocol, where a secret is generated per-round.  On each round, we can query the server with 7 lines of numbers to inform our guess, and we must pass all rounds in order to obtain the flag. 
 
 ```python
 #!/usr/bin/python3
@@ -139,9 +139,18 @@ if __name__ == '__main__':
 
 ## Solution
 
-Let's analyze the protocol implementation in more detail.  
+Examining the code, we find that `A` and `B` are classes that implement RSA and Paillier operations.  
 
-Firstly, we note that classes `A` and `B` perform RSA and Paillier operations.  On every round, the server provides us with the Pailler modulus $$ n = pq $$.  This is important, because with $$ g = n + 1$$ known, we can construct an encryption oracle and generate arbitrary Paillier ciphertexts.  
+The protocol itself centers around the `compute` and `ans` functions, and each round performs the following procedure:  
+
+* Print the Paillier modulus $$ n $$
+* Accept a query consisting of 7 lists of integers
+* Compute `e_secret = Paillier_encrypt(secret + 0xD3ADC0DE)`  
+* For each of the 7 lists:  
+  * Bisect the list and compute the product of `RSA_encrypt(Paillier_decrypt(e_secret * num))` for all `num` in each half
+  * Output the two aggregated RSA ciphertexts.
+
+An important insight is that because the server provides us with the Pailler modulus $$ n = pq $$ on each round and we know $$ g = n + 1$$ from `B`, we can construct a Paillier encryption oracle and generate arbitrary ciphertexts.  
 
 Furthermore, Paillier encryption is additively homomorphic over plaintexts: recall that any Paillier ciphertext has form $$c = g^m r^n \bmod{n^2} $$, where $$ r $$ is a randomizer chosen from $$[1, n - 1]$$ satisfying $$ \gcd(r, n) = 1 $$.  Pailler decryption is given by $$ m = L(c^\lambda \bmod{n^2}) \cdot \mu$$, where 
 
