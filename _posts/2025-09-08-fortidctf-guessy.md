@@ -153,7 +153,7 @@ Let $$ c_1 = g^{m_1} r_1^n \bmod{n^2}, c_2 = g^{m_2} r_2^n \bmod{n^2} $$, and $$
 
 $$ D(c_1 c_2) = L((c_1 c_2)^\lambda \bmod{n^2}) \cdot \mu \bmod{n} $$
 
-$$ = L(g^{\lambda(m_1 + m_2)} r_1^{n\lambda} r_2^{n\lambda} \bmod{n^2}) \cdot (L(g^\lambda \bmod{n^2}))^{-1}\bmod{n} $$
+$$ = L(g^{\lambda(m_1 + m_2)} r_1^{\lambda n} r_2^{\lambda n} \bmod{n^2}) \cdot (L(g^\lambda \bmod{n^2}))^{-1}\bmod{n} $$
 
 $$ = L((n + 1)^{\lambda(m_1 + m_2)} \bmod{n^2}) \cdot (L((n + 1)^\lambda \bmod{n^2}))^{-1}\bmod{n} \,\,\,\,\,\,\,\,\,\, \text{(by Euler's theorem)} $$
 
