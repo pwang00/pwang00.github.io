@@ -145,9 +145,9 @@ The protocol itself centers around the `compute` and `ans` functions, and each r
 
 * Output the Paillier modulus $$ n = pq $$
 * Accept a query consisting of 7 lists of integers
-* Compute e_secret = Paillier_encrypt(secret + 0xD3ADC0DE)  
+* Compute **e_secret = Paillier_encrypt(secret + 0xD3ADC0DE)**  
 * For each of the 7 lists:  
-  * Bisect the list and compute the product of RSA_encrypt(Paillier_decrypt(e_secret * num)) for every num in each half
+  * Bisect the list and compute the product of **RSA_encrypt(Paillier_decrypt(e_secret * num))** for every num in each half
   * Output the two aggregated RSA ciphertexts.
 
 An important insight is that because the server provides us with the Pailler modulus on each round and we know $$ g = n + 1$$ from B, we can construct a Paillier encryption oracle and generate arbitrary ciphertexts.  
