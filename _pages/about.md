@@ -15,7 +15,13 @@ selected_papers: false # includes a list of papers marked as "selected={true}"
 social: true  # includes social icons at the bottom of the page
 ---
 
-I'm a graduate from the University of Maryland, College Park who is broadly interested in security. 
+I'm a graduate from the University of Maryland, College Park who is broadly interested in security.  Below is a more specific list of my current interests or fields I'd otherwise want to explore: 
+
+* Zero-knowledge proofs
+* Cryptographic engineering
+* Software exploitation and reverse engineering
+* Automated program analysis and formal verification
+* Compilers (optimizations, infrastructure) 
 
 I sometimes play capture the flags (CTFs) with [DiceGang](https://ctftime.org/team/109452/), though I've been kind of inactive lately.  I mostly focus on solving cryptography challenges, though I occasionally branch out into other categories.
 
