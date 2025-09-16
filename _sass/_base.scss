@@ -582,16 +582,13 @@ pre {
   background-color: var(--global-code-bg-color);
   border-radius: 6px;
   padding: 6px 12px;
+  overflow-x: auto;
+  word-wrap: break-word;
+  max-width: 100%;
   pre, code {
     background-color: transparent;
     border-radius: 0;
     padding: 0;
-  }
-
-  @media (max-width: 768px) {
-    overflow-x: auto;
-    word-wrap: break-word;
-    max-width: 100%;
   }
 }
 

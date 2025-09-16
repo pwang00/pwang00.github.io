@@ -23,13 +23,9 @@ body.sticky-bottom-footer {
 }
 
 .container {
-  max-width: $max-content-width;
-
-  @media (max-width: 768px) {
-    max-width: 95vw;
-    margin: 0 auto;
-    padding: 0 15px;
-  }
+  max-width: clamp(300px, 95vw, $max-content-width);
+  margin: 0 auto;
+  padding: 0 clamp(10px, 3vw, 20px);
 }
 
 // Profile
