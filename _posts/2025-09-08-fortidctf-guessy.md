@@ -145,11 +145,11 @@ Firstly, we note that classes `A` and `B` perform RSA and Paillier operations.  
 
 Furthermore, Paillier encryption is additively homomorphic over plaintexts: recall that any Paillier ciphertext has form $$c = g^m r^n \bmod{n^2} $$, where $$ r $$ is a randomizer chosen from $$[1, n - 1]$$ satisfying $$ \gcd(r, n) = 1 $$.  Pailler decryption is given by $$ m = L(c^\lambda \bmod{n^2}) \cdot \mu$$, where 
 
-* $$ \mu = L(g^\lambda \bmod{n^2})^{-1} \bmod{n}$$ is a multiplier
+* $$ L(x) = \frac{x - 1}{n} $$ computes the discrete logarithm of $$g = (n + 1)^x \bmod n^2 $$
 * $$ \lambda $$ is the evaluation of the Carmichael function $$\lambda(n) = \text{lcm}(p - 1, q - 1) $$ for $$ n = pq $$
-* $$ L(x) = \frac{x - 1}{n} $$ computes the discrete logarithm of $$(n + 1)^x \bmod n^2 $$
+* $$ \mu = L(g^\lambda \bmod{n^2})^{-1} \bmod{n}$$ gives $$ \lambda^{-1} \pmod{n} $$
 
-Let $$ c_1 = g^{m_1} r_1^n \bmod{n^2}, c_2 = g^{m_2} r_2^n \bmod{n^2} $$, and $$ E, D $$ denote the Paillier encryption and decryption operations.  Then
+Let $$ c_1 = g^{m_1} r_1^n \bmod{n^2}, c_2 = g^{m_2}uu r_2^n \bmod{n^2} $$, and $$ E, D $$ denote the Paillier encryption and decryption operations.  Then
 
 $$ D(c_1 c_2) = L((c_1 c_2)^\lambda \bmod{n^2}) \cdot \mu \bmod{n} $$
 
