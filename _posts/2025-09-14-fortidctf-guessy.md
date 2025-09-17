@@ -141,7 +141,7 @@ if __name__ == '__main__':
 
 Examining the code, we find that **A** and **B** are classes that implement RSA and Paillier operations.  
 
-The protocol itself centers around the `compute` and `ans` functions, and each round performs the following procedure:  
+The protocol itself centers around the `compute`, `ans`, and `test` functions, and each round performs the following procedure:  
 
 * Output the Paillier modulus $$ n = pq $$
 * Accept a query consisting of 7 lists of integers
@@ -150,7 +150,7 @@ The protocol itself centers around the `compute` and `ans` functions, and each r
   * Bisect the list and compute the product of **RSA_encrypt(Paillier_decrypt(e_secret * num))** for every num in each half
   * Output the two aggregated RSA ciphertexts.
 
-An important insight is that because the server provides us with the Pailler modulus on each round and we know $$ g = n + 1$$ from **B**, we can construct a Paillier encryption oracle and generate arbitrary ciphertexts.  
+An important insight is that because the server provides us with the Pailler modulus on each round and we know $$ g = n + 1$$ from **B**, we can construct an encryption oracle and generate arbitrary ciphertexts.  
 
 Furthermore, Paillier encryption is additively homomorphic over plaintexts: recall that any Paillier ciphertext has form $$c = g^m r^n \bmod{n^2} $$, where $$ r $$ is a randomizer chosen from $$[1, n - 1]$$ satisfying $$ \gcd(r, n) = 1 $$.  Pailler decryption is given by $$ m = L(c^\lambda \bmod{n^2}) \cdot \mu$$, where 
 
@@ -176,9 +176,7 @@ This additive homomorphism property will be extremely useful.  Observe that `ans
 
 A direct implication is that if we use our encryption oracle to generate ciphertexts $$ c_i = E(-(x_i + A)) $$ for every $$ x_i \in \{0..2047\} $$, exactly one of these must yield a Paillier decryption of 0 on the server, since for some $$c_i$$, we have $$ D(c_x \cdot c_i) = D(E(x + A) \cdot E(-(x + A))) = 0$$.  This also nullifies the subsequent RSA encryptions, since 0 is a fixed point under any unpadded RSA operation.  Thus, we have a distinguishing condition that could lead to information leakage!
 
-Returning to `ans`, we're asked to submit 7 lines / lists of numbers with the condition that each list contain an even number of elements.  The lists are then bisected into a left and right half before the aggregated product of the RSA encryptions / Pailler decryptions on our supplied ciphertexts are computed on both, and the results of the encryptions of the left and right halves of each list are printed.
-
-This bisection logic seems especially promising for further building up our distinguisher, since it encodes positional information about the secret.  To give some intuition: suppose we were to naively partition our 2048 relevant ciphertexts into chunks of size 2048 // 7 and submit those across 7 lines--we would expect the server to return 0 on either the first or second encryption on any of the 7 lines returned by the server.  This would let us bound the index to a certain subinterval of $$ \{0..2047\} $$--not quite good enough to return the secret, but certainly directionally correct in terms of approach.
+Returning to `ans`, the bisection logic seems especially promising for further building up our distinguisher, since it encodes positional information about the secret.  To give some intuition: suppose we were to naively partition our 2048 relevant ciphertexts into chunks of size 2048 // 7 and submit those across 7 lines--we would expect the server to return 0 on either the first or second encryption on any of the 7 lines returned by the server.  This would let us bound the index to a certain subinterval of $$ \{0..2047\} $$--not quite good enough to return the secret, but certainly directionally correct in terms of approach.
 
 Can we do better?
 
