@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Guessy - FortID CTF
-date: 2025-08-31 11:12:00-0400
+date: 2025-09-14 11:12:00-0400
 description: Cryptography in practice
 tags: cryptography FortID CTF 2025 Paillier RSA Information theory
 categories: CTFs
@@ -139,7 +139,7 @@ if __name__ == '__main__':
 
 ## Solution
 
-Examining the code, we find that A and B are classes that implement RSA and Paillier operations.  
+Examining the code, we find that **A** and **B** are classes that implement RSA and Paillier operations.  
 
 The protocol itself centers around the `compute` and `ans` functions, and each round performs the following procedure:  
 
@@ -150,7 +150,7 @@ The protocol itself centers around the `compute` and `ans` functions, and each r
   * Bisect the list and compute the product of **RSA_encrypt(Paillier_decrypt(e_secret * num))** for every num in each half
   * Output the two aggregated RSA ciphertexts.
 
-An important insight is that because the server provides us with the Pailler modulus on each round and we know $$ g = n + 1$$ from B, we can construct a Paillier encryption oracle and generate arbitrary ciphertexts.  
+An important insight is that because the server provides us with the Pailler modulus on each round and we know $$ g = n + 1$$ from **B**, we can construct a Paillier encryption oracle and generate arbitrary ciphertexts.  
 
 Furthermore, Paillier encryption is additively homomorphic over plaintexts: recall that any Paillier ciphertext has form $$c = g^m r^n \bmod{n^2} $$, where $$ r $$ is a randomizer chosen from $$[1, n - 1]$$ satisfying $$ \gcd(r, n) = 1 $$.  Pailler decryption is given by $$ m = L(c^\lambda \bmod{n^2}) \cdot \mu$$, where 
 
