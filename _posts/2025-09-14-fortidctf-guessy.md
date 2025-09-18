@@ -196,10 +196,10 @@ The general idea proceeds as follows:
 
 * Initialize a list of rows, each row being [left_half, right_half] = [[], []]
 * For every $$ x_i \in \{0..2047\}$$, generate a ciphertext $$ c_i = E(-(x_i + A))$$, derive its ternary representation and index the digits
-* For every (index, digit) in the representation:
-    * If the digit is 0, exclude $$ c_i $$ from the $$i$$th row
-    * If the digit is 1, append $$ c_i $$ to the left half of the $$i$$th row
-    * If the digit is 2, append $$ c_i $$ to the right half of the $$i$$th row
+* For every $$ d_i $$ in the representation:
+    * If $$ d_i = 0 $$, exclude $$ c_i $$ from the $$i$$th row
+    * If $$ d_i = 1 $$, append $$ c_i $$ to the left half of the $$i$$th row
+    * If $$ d_i = 2 $$, append $$ c_i $$ to the right half of the $$i$$th row
 
 
 #### Decoding
