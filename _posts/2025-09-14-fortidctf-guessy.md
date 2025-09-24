@@ -141,7 +141,7 @@ if __name__ == '__main__':
 
 Examining the code, we find that **A** and **B** are classes that implement RSA and Paillier operations.  
 
-The protocol itself centers around the `compute`, `ans`, and `test` functions, and each round performs the following procedure:  
+The protocol itself centers around this across the `compute`, `ans`, and `test` functions, and each round performs the following procedure:  
 
 * Output the Paillier modulus $$ n = pq $$
 * Accept a query consisting of 7 lists of integers
