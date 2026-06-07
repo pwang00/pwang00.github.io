@@ -150,9 +150,9 @@ The protocol itself centers around this across the `compute`, `ans`, and `test` 
   * Bisect the list and compute the product of **RSA_encrypt(Paillier_decrypt(e_secret * num))** for every num in each half
   * Output the two aggregated RSA ciphertexts.
 
-An important insight is that because the server provides us with the Pailler modulus on each round and we know $$ g = n + 1$$ from **B**, we can construct an encryption oracle and generate arbitrary ciphertexts.  
+An important insight is that because the server provides us with the Paillier modulus on each round and we know $$ g = n + 1$$ from **B**, we can construct an encryption oracle and generate arbitrary ciphertexts.  
 
-Furthermore, Paillier encryption is additively homomorphic over plaintexts: recall that any Paillier ciphertext has form $$c = g^m r^n \bmod{n^2} $$, where $$ r $$ is a randomizer chosen from $$[1, n - 1]$$ satisfying $$ \gcd(r, n) = 1 $$.  Pailler decryption is given by $$ m = L(c^\lambda \bmod{n^2}) \cdot \mu$$, where 
+Furthermore, Paillier encryption is additively homomorphic over plaintexts: recall that any Paillier ciphertext has form $$c = g^m r^n \bmod{n^2} $$, where $$ r $$ is a randomizer chosen from $$[1, n - 1]$$ satisfying $$ \gcd(r, n) = 1 $$.  Paillier decryption is given by $$ m = L(c^\lambda \bmod{n^2}) \cdot \mu$$, where 
 
 * $$ L(x) = \frac{x - 1}{n} $$ computes the discrete logarithm of $$g = (n + 1)^x \bmod n^2 $$
 * $$ \lambda $$ is the evaluation of the Carmichael function $$\lambda(n) = \text{lcm}(p - 1, q - 1) $$ for $$ n = pq $$
